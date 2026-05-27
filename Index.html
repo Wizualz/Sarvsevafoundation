@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sarvsevak Foundation — Serving Humanity</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --saffron: #FF6B00;
+      --saffron-light: #FF8C33;
+      --saffron-pale: #FFF0E0;
+      --green: #1A7A4A;
+      --green-light: #25A366;
+      --green-pale: #E8F5EE;
+      --navy: #0D1B2A;
+      --navy-mid: #1C3A52;
+      --cream: #FEFAF4;
+      --warm-white: #FFFDF9;
+      --text: #1a1a1a;
+      --text-mid: #4a4a4a;
+      --text-light: #7a7a7a;
+      --gold: #D4A017;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--warm-white);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(255, 253, 249, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 107, 0, 0.12);
+      padding: 0 24px;
+      height: 84px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.08); }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo img { height: 70px; width: auto; object-fit: contain; }
+    .nav-logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.2;
+    }
+    .nav-logo-text span { color: var(--saffron); display: block; font-size: 0.65rem; font-family: 'DM Sans', sans-serif; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-mid);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0; right: 0;
+      height: 2px;
+      background: var(--saffron);
+      transform: scaleX(0);
+      transition: transform 0.25s;
+    }
+    .nav-links a:hover { color: var(--saffron); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    .btn-donate-nav {
+      background: var(--saffron);
+      color: white !important;
+      padding: 9px 22px;
+      border-radius: 50px;
+      font-weight: 600 !important;
+      font-size: 0.88rem !important;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s !important;
+      box-shadow: 0 4px 15px rgba(255,107,0,0.3);
+    }
+    .btn-donate-nav::after { display: none !important; }
+    .btn-donate-nav:hover { background: var(--saffron-light) !important; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,107,0,0.4) !important; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 5px;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--navy);
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 84px; left: 0; right: 0;
+      background: white;
+      padding: 20px 24px 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      z-index: 999;
+      border-bottom: 3px solid var(--saffron);
+      flex-direction: column;
+      gap: 0;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 14px 0;
+      border-bottom: 1px solid #f0f0f0;
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--saffron); }
+    .mobile-menu .btn-donate-mobile {
+      margin-top: 16px;
+      background: var(--saffron);
+      color: white !important;
+      text-align: center;
+      padding: 14px;
+      border-radius: 50px;
+      font-weight: 600;
+      border: none;
+      box-shadow: 0 4px 15px rgba(255,107,0,0.3);
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      background: var(--navy);
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding-top: 84px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 80% 60% at 70% 50%, rgba(255,107,0,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 80% at 20% 80%, rgba(26,122,74,0.15) 0%, transparent 60%),
+        linear-gradient(135deg, #0D1B2A 0%, #1C3A52 50%, #0D1B2A 100%);
+    }
+
+    .hero-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      background-image: repeating-linear-gradient(
+        45deg,
+        rgba(255,255,255,0.5) 0px,
+        rgba(255,255,255,0.5) 1px,
+        transparent 1px,
+        transparent 30px
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,107,0,0.15);
+      border: 1px solid rgba(255,107,0,0.35);
+      color: var(--saffron-light);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-tag::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--saffron); animation: pulse 2s infinite; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.3); }
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 900;
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 22px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--saffron);
+      position: relative;
+    }
+
+    .hero-desc {
+      color: rgba(255,255,255,0.72);
+      font-size: 1.05rem;
+      line-height: 1.75;
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--saffron);
+      color: white;
+      padding: 15px 32px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.25s;
+      box-shadow: 0 6px 25px rgba(255,107,0,0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary:hover { background: #e85f00; transform: translateY(-2px); box-shadow: 0 10px 35px rgba(255,107,0,0.5); }
+
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      padding: 15px 32px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border: 1.5px solid rgba(255,255,255,0.35);
+      transition: all 0.25s;
+    }
+    .btn-secondary:hover { border-color: white; background: rgba(255,255,255,0.08); }
+
+    .hero-stats {
+      display: flex;
+      gap: 28px;
+      margin-top: 48px;
+    }
+    .stat {
+      border-left: 2px solid var(--saffron);
+      padding-left: 14px;
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: white;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 3px;
+    }
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-card-stack {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .cause-card-preview {
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: transform 0.3s;
+      animation: floatCard 4s ease-in-out infinite;
+    }
+    .cause-card-preview:hover { transform: translateY(-4px) scale(1.02); }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .cause-card-preview:nth-child(2) {
+      margin-top: 14px;
+      margin-left: 20px;
+      animation-delay: 0.5s;
+    }
+    .cause-card-preview:nth-child(3) {
+      margin-top: 14px;
+      margin-left: -10px;
+      animation-delay: 1s;
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .card-info h4 {
+      color: white;
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+    .card-info p {
+      color: rgba(255,255,255,0.55);
+      font-size: 0.78rem;
+      margin-top: 3px;
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: var(--saffron);
+      animation: fillBar 2s ease-out forwards;
+    }
+    @keyframes fillBar { from { width: 0; } }
+
+    /* ===== SECTION SHARED ===== */
+    section { padding: 90px 24px; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+
+    .section-tag {
+      display: inline-block;
+      color: var(--saffron);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      color: var(--text-light);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    /* ===== IMPACT STRIP ===== */
+    .impact-strip {
+      background: var(--saffron);
+      padding: 28px 24px;
+    }
+    .impact-strip-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      text-align: center;
+    }
+    .impact-item { color: white; }
+    .impact-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .impact-label {
+      font-size: 0.82rem;
+      opacity: 0.88;
+      margin-top: 4px;
+    }
+
+    /* ===== MISSION ===== */
+    .mission { background: var(--cream); }
+
+    .mission-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 70px;
+      align-items: center;
+    }
+
+    .mission-visual {
+      position: relative;
+    }
+
+    .mission-img-box {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: 30px;
+      overflow: visible;
+      background: linear-gradient(135deg, var(--saffron-pale) 0%, #fff8f0 50%, var(--green-pale) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 32px;
+    }
+    .mission-img-box img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 16px 48px rgba(255,107,0,0.22));
+      animation: floatLogo 4s ease-in-out infinite;
+      display: block;
+    }
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .mission-badge {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background: var(--navy);
+      color: white;
+      padding: 16px 18px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(13,27,42,0.3);
+      z-index: 2;
+    }
+    .mission-badge strong {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--saffron);
+      display: block;
+    }
+    .mission-badge span { font-size: 0.75rem; opacity: 0.7; }
+
+    .mission-text h2 { margin-bottom: 20px; }
+
+    .mission-points {
+      list-style: none;
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .mission-points li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.95rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+    .mission-points li::before {
+      content: '✓';
+      background: var(--green);
+      color: white;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ===== CAUSES GRID ===== */
+    .causes { background: white; }
+
+    .causes-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .causes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .cause-card {
+      border-radius: 22px;
+      overflow: hidden;
+      background: var(--cream);
+      border: 1px solid rgba(0,0,0,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      position: relative;
+    }
+    .cause-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+    }
+
+    .cause-card-top {
+      padding: 28px;
+      position: relative;
+    }
+
+    .cause-emoji {
+      font-size: 2.4rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .cause-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .cause-card p {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      line-height: 1.65;
+    }
+
+    .cause-card-footer {
+      padding: 16px 28px 22px;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cause-link {
+      color: var(--saffron);
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .cause-link:hover { gap: 9px; }
+
+    .cause-color-bar {
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px;
+      height: 100%;
+    }
+
+    /* ===== DONATE SECTION ===== */
+    .donate-section {
+      background: linear-gradient(135deg, var(--navy) 0%, #1a3550 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .donate-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 70% at 80% 50%, rgba(255,107,0,0.1), transparent);
+    }
+
+    .donate-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .donate-inner .section-tag { color: var(--saffron-light); }
+    .donate-inner .section-title { color: white; }
+    .donate-inner .section-sub { color: rgba(255,255,255,0.65); max-width: 600px; margin: 0 auto 40px; }
+
+    .donate-box {
+      background: white;
+      border-radius: 28px;
+      padding: 40px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+    }
+
+    .donate-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .donate-box > p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-bottom: 28px;
+    }
+
+    .amount-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .amount-btn {
+      border: 2px solid #e5e5e5;
+      background: white;
+      border-radius: 12px;
+      padding: 14px 10px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .amount-btn:hover, .amount-btn.active {
+      border-color: var(--saffron);
+      background: var(--saffron-pale);
+      color: var(--saffron);
+    }
+    .amount-btn strong { display: block; font-size: 1.05rem; color: inherit; }
+    .amount-btn span { font-size: 0.72rem; color: var(--text-light); margin-top: 2px; display: block; }
+    .amount-btn.active span { color: var(--saffron); }
+
+    .custom-amount {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .custom-amount span {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-mid);
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .custom-amount input {
+      width: 100%;
+      border: 2px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 14px 14px 14px 36px;
+      font-size: 1rem;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .custom-amount input:focus { border-color: var(--saffron); }
+    .custom-amount input::placeholder { color: #bbb; }
+
+    .cause-select {
+      width: 100%;
+      border: 2px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 0.9rem;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      margin-bottom: 20px;
+      color: var(--text-mid);
+      background: white;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .cause-select:focus { border-color: var(--saffron); }
+
+    .donor-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .donor-fields input {
+      border: 2px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 0.9rem;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    .donor-fields input:focus { border-color: var(--saffron); }
+    .donor-fields input::placeholder { color: #bbb; }
+
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .pay-method {
+      border: 2px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+    }
+    .pay-method:hover, .pay-method.active {
+      border-color: var(--saffron);
+      background: var(--saffron-pale);
+    }
+    .pay-method .pay-icon { font-size: 1.6rem; display: block; margin-bottom: 4px; }
+    .pay-method span { font-size: 0.72rem; color: var(--text-mid); font-weight: 500; }
+
+    .upi-section {
+      background: var(--green-pale);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 22px;
+      text-align: center;
+      border: 1px solid rgba(26,122,74,0.15);
+    }
+    .upi-section h4 {
+      color: var(--green);
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .upi-id {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 0.03em;
+      font-family: 'Playfair Display', serif;
+    }
+    .upi-section p { font-size: 0.78rem; color: var(--text-light); margin-top: 6px; }
+
+    .btn-donate-main {
+      width: 100%;
+      background: var(--saffron);
+      color: white;
+      padding: 18px;
+      border-radius: 14px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: 0 6px 25px rgba(255,107,0,0.35);
+      margin-bottom: 16px;
+    }
+    .btn-donate-main:hover { background: #e85f00; transform: translateY(-2px); box-shadow: 0 10px 35px rgba(255,107,0,0.45); }
+
+    .tax-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--text-light);
+    }
+    .tax-note::before { content: '🔒'; font-size: 0.9rem; }
+
+    /* ===== HOW IT WORKS ===== */
+    .how { background: var(--cream); }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 52px;
+      position: relative;
+    }
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: 12.5%;
+      right: 12.5%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--saffron), var(--green));
+      z-index: 0;
+    }
+
+    .step-card {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .step-num {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid var(--saffron);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--saffron);
+      margin: 0 auto 18px;
+      box-shadow: 0 8px 24px rgba(255,107,0,0.15);
+    }
+    .step-card h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .step-card p {
+      font-size: 0.83rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* ===== TESTIMONIALS ===== */
+    .testimonials { background: white; }
+
+    .testimonials-header { text-align: center; margin-bottom: 48px; }
+    .testimonials-header .section-sub { margin: 0 auto; }
+
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .testi-card {
+      background: var(--cream);
+      border-radius: 22px;
+      padding: 28px;
+      border: 1px solid rgba(0,0,0,0.05);
+      position: relative;
+    }
+    .testi-card::before {
+      content: '"';
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      color: var(--saffron);
+      opacity: 0.2;
+      position: absolute;
+      top: 10px;
+      left: 22px;
+      line-height: 1;
+    }
+
+    .testi-text {
+      font-size: 0.92rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .testi-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .testi-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: white;
+    }
+    .testi-name { font-weight: 600; font-size: 0.9rem; color: var(--navy); }
+    .testi-role { font-size: 0.75rem; color: var(--text-light); }
+
+    .stars { color: var(--gold); font-size: 0.85rem; margin-bottom: 12px; }
+
+    /* ===== BANK DETAILS ===== */
+    .bank-section { background: var(--navy); }
+
+    .bank-section .section-tag { color: var(--saffron-light); }
+    .bank-section .section-title { color: white; }
+
+    .bank-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 40px;
+    }
+
+    .bank-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 28px;
+    }
+    .bank-card h3 {
+      color: var(--saffron-light);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .bank-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .bank-row:last-child { border: none; }
+    .bank-label { color: rgba(255,255,255,0.5); font-size: 0.83rem; }
+    .bank-value { color: white; font-weight: 600; font-size: 0.9rem; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #050e17;
+      color: rgba(255,255,255,0.65);
+      padding: 60px 24px 30px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand img { height: 80px; margin-bottom: 14px; filter: brightness(0) invert(1); opacity: 0.9; object-fit: contain; }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.75; max-width: 280px; }
+    .footer-brand .social-links { display: flex; gap: 10px; margin-top: 18px; }
+    .social-links a {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    .social-links a:hover { background: var(--saffron); }
+
+    .footer-col h4 {
+      color: white;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a {
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+    .footer-col ul li a:hover { color: var(--saffron); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-bottom p { font-size: 0.8rem; }
+
+    .india-flag { display: inline-flex; align-items: center; gap: 6px; }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: white;
+      border-radius: 24px;
+      padding: 36px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      animation: modalIn 0.3s ease;
+    }
+    @keyframes modalIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .modal h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--navy); margin-bottom: 10px; }
+    .modal p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 24px; }
+    .modal-close {
+      background: var(--saffron);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* ===== SCROLL TOP ===== */
+    #scrollTop {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 48px;
+      height: 48px;
+      background: var(--saffron);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(255,107,0,0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      transition: transform 0.2s;
+    }
+    #scrollTop:hover { transform: scale(1.1); }
+    #scrollTop.visible { display: flex; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .causes-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps-grid::before { display: none; }
+      .testi-grid { grid-template-columns: 1fr 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .impact-strip-inner { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      section { padding: 56px 20px; }
+
+      /* Hero - fix blank space */
+      .hero {
+        min-height: auto;
+        padding-bottom: 0;
+      }
+      .hero-content {
+        grid-template-columns: 1fr;
+        padding: 36px 20px 40px;
+        text-align: center;
+        gap: 32px;
+      }
+      .hero-visual { 
+        display: block;
+        padding-bottom: 20px;
+      }
+      .hero-card-stack { max-width: 100%; }
+      .cause-card-preview { padding: 16px 18px; }
+      .card-icon { width: 40px; height: 40px; font-size: 1.1rem; border-radius: 10px; }
+      .card-info h4 { font-size: 0.85rem; }
+      .card-info p { font-size: 0.73rem; }
+      .cause-card-preview:nth-child(2) { margin-left: 10px; }
+      .cause-card-preview:nth-child(3) { margin-left: -5px; }
+
+      .hero-btns { justify-content: center; }
+      .hero-stats { justify-content: center; gap: 18px; }
+      .hero-desc { margin: 0 auto 28px; font-size: 0.95rem; }
+      .hero-tag { margin: 0 auto 20px; }
+      .stat-num { font-size: 1.5rem; }
+
+      .mission-grid { grid-template-columns: 1fr; gap: 40px; }
+      .mission-visual { order: -1; }
+      .mission-badge { right: 10px; bottom: 10px; padding: 12px 14px; }
+      .mission-badge strong { font-size: 1.4rem; }
+
+      .causes-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .testi-grid { grid-template-columns: 1fr; }
+
+      .amount-grid { grid-template-columns: repeat(2, 1fr); }
+      .donor-fields { grid-template-columns: 1fr; }
+      .payment-methods { grid-template-columns: repeat(3, 1fr); }
+
+      .bank-grid { grid-template-columns: 1fr; }
+
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+
+      .impact-strip-inner { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .causes-header { flex-direction: column; align-items: flex-start; }
+
+      .donate-box { padding: 24px 18px; }
+    }
+
+    @media (max-width: 480px) {
+      .impact-strip-inner { grid-template-columns: repeat(2, 1fr); }
+      .amount-grid { grid-template-columns: repeat(2, 1fr); }
+      .payment-methods { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* Fade in animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <img src="https://cdn.shopify.com/s/files/1/0852/4565/7363/files/LOGO_SVG.svg?v=1779867011" alt="Sarvsevak Foundation" onerror="this.style.display='none'"/>
+    <div class="nav-logo-text">Sarvsevak Foundation<span>Serving Humanity Since Day One</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#mission">Mission</a></li>
+    <li><a href="#causes">Causes</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#donate" class="btn-donate-nav">❤ Donate Now</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#mission" onclick="closeMobile()">Our Mission</a>
+  <a href="#causes" onclick="closeMobile()">Causes</a>
+  <a href="#how" onclick="closeMobile()">How It Works</a>
+  <a href="#donate" class="btn-donate-mobile" onclick="closeMobile()">❤ Donate Now</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-tag">🇮🇳 Registered NGO India</div>
+      <h1>Changing Lives with <em>Compassion</em> & Care</h1>
+      <p class="hero-desc">Sarvsevak Foundation is dedicated to serving the underprivileged — providing food, education, medical aid, and empowerment to those who need it most.</p>
+      <div class="hero-btns">
+        <a href="#donate" class="btn-primary">❤ Donate Now</a>
+        <a href="#causes" class="btn-secondary">Our Causes ↓</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">12+</div><div class="stat-label">Active Programs</div></div>
+        <div class="stat"><div class="stat-num">10K+</div><div class="stat-label">Lives Touched</div></div>
+        <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Transparency</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card-stack">
+        <div class="cause-card-preview">
+          <div class="card-icon" style="background:rgba(255,107,0,0.15);">🍱</div>
+          <div class="card-info">
+            <h4>Food Support</h4>
+            <p>Meals served daily to needy families</p>
+            <div class="progress-bar"><div class="progress-fill" style="width:72%"></div></div>
+          </div>
+        </div>
+        <div class="cause-card-preview">
+          <div class="card-icon" style="background:rgba(26,122,74,0.15);">📚</div>
+          <div class="card-info">
+            <h4>Education Aid</h4>
+            <p>Scholarships for underprivileged children</p>
+            <div class="progress-bar"><div class="progress-fill" style="width:58%;background:var(--green)"></div></div>
+          </div>
+        </div>
+        <div class="cause-card-preview">
+          <div class="card-icon" style="background:rgba(212,160,23,0.15);">🏥</div>
+          <div class="card-info">
+            <h4>Medical Assistance</h4>
+            <p>Healthcare for those who can't afford</p>
+            <div class="progress-bar"><div class="progress-fill" style="width:83%;background:var(--gold)"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT STRIP -->
+<div class="impact-strip">
+  <div class="impact-strip-inner">
+    <div class="impact-item"><div class="impact-num">10,000+</div><div class="impact-label">Meals Provided</div></div>
+    <div class="impact-item"><div class="impact-num">500+</div><div class="impact-label">Children Supported</div></div>
+    <div class="impact-item"><div class="impact-num">200+</div><div class="impact-label">Medical Cases Aided</div></div>
+    <div class="impact-item"><div class="impact-num">12</div><div class="impact-label">Welfare Programs</div></div>
+  </div>
+</div>
+
+<!-- MISSION -->
+<section class="mission" id="mission">
+  <div class="section-inner">
+    <div class="mission-grid">
+      <div class="mission-visual fade-in">
+        <div class="mission-img-box">
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0852/4565/7363/files/LOGO_SVG.svg?v=1779867011" 
+            alt="Sarvsevak Foundation Logo"
+            id="missionLogo"
+            onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='flex';"
+          />
+          <div id="logoFallback" style="display:none; flex-direction:column; align-items:center; justify-content:center; gap:10px;">
+            <div style="font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:var(--saffron); text-align:center; line-height:1.2;">Sarvsevak<br>Foundation</div>
+            <div style="width:60px; height:3px; background:var(--saffron); border-radius:2px;"></div>
+            <div style="font-size:0.85rem; color:var(--text-light); letter-spacing:0.1em; text-transform:uppercase;">Serving Humanity</div>
+          </div>
+        </div>
+        <div class="mission-badge">
+          <strong>Est.</strong>
+          <span>Sarvsevak<br>Foundation</span>
+        </div>
+      </div>
+      <div class="mission-text fade-in">
+        <span class="section-tag">Our Mission</span>
+        <h2 class="section-title">Every Life Deserves Dignity & Hope</h2>
+        <p class="section-sub">We believe that every human being — regardless of their circumstances — deserves access to basic needs, care, and opportunity. Our foundation works tirelessly across communities to make that belief a reality.</p>
+        <ul class="mission-points">
+          <li>No one should sleep hungry — we provide daily meals to the poor and homeless</li>
+          <li>Healthcare is a right, not a privilege — we support patients who can't afford treatment</li>
+          <li>Every child deserves education — we fund scholarships and study materials</li>
+          <li>We stand with orphans, widows, the elderly, and the marginalized</li>
+          <li>100% transparent — every rupee donated is accounted for and used responsibly</li>
+        </ul>
+        <a href="#donate" class="btn-primary" style="margin-top:28px; display:inline-flex;">Join Our Mission →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAUSES -->
+<section class="causes" id="causes">
+  <div class="section-inner">
+    <div class="causes-header fade-in">
+      <div>
+        <span class="section-tag">What We Do</span>
+        <h2 class="section-title">Our Welfare Programs</h2>
+      </div>
+      <p style="color:var(--text-light);font-size:0.9rem;max-width:360px;line-height:1.65;">Twelve active programs serving those in need across India.</p>
+    </div>
+    <div class="causes-grid">
+      <div class="cause-card fade-in">
+        <div class="cause-color-bar" style="background:var(--saffron)"></div>
+        <div class="cause-card-top">
+          <span class="cause-emoji">🍱</span>
+          <h3>Food Support</h3>
+          <p>Providing meals to the hungry, homeless, daily wage workers and underprivileged families across communities.</p>
+        </div>
+        <div class="cause-card-footer">
+          <a href="#donate" class="cause-link">Donate → </a>
+          <span style="font-size:0.75rem;color:var(--text-light)">Food Security</span>
+        </div>
+      </div>
+      <div class="cause-card fade-in">
+        <div class="cause-color-bar" style="background:#e63946"></div>
+        <div class="cause-card-top">
+          <span class="cause-emoji">🏥</span>
+          <h3>Medical Assistance</h3>
+          <p>Supporting financially struggling patients with medicines, surgeries, hospital expenses, and emergency care.</p>
+        </div>
+        <div class="cause-card-footer">
+          <a href="#donate" class="cause-link">Donate → </a>
+          <span style="font-size:0.75rem;color:var(--text-light)">Healthcare</span>
+        </div>
+      </div>
+      <div class="cause-card fade-in">
+        <div class="cause-color-bar" style="background:var(--green)"></div>
+        <div class="cause-card-top">
+          <span class="cause-emoji">📚</span>
+          <h3>Education Support</h3>
+          <p>Empowering underprivileged children with scholarships, study materials, school fees, and career guidance.</p>
+        </div>
+        <div class="cause-card-footer">
+          <a href="#donate" class="cause-link">Donate → </a>
+          <span style="font-size:0.75rem;color:var(--text-light)">Education</span>
+        </div>
+      </div>
+      <div class="cause-card fade-in">
+        <div class="cause-color-bar" style="background:#7b2d8b"></div>
+        <div class="cause-card-top">
+          <span class="cause-emoji">🤝</span>
+          <h3>Orphans & Widows</h3>
+          <p>Providing daily necessities, educational opportunities, and financial assistance to orphans and widows.</p>
+        </div>
+        <div class="cause-card-footer">
+          <a href="#donate" class="cause-link">Donate → </a>
+          <span style="font-size:0.75rem;color:var(--text-light)">Social Welfare</span>
+        </div>
+      </div>
+      <div class="cause-card fade-in">
+        <div class="cause-color-bar" style="background:#e91e63"></div>
+        <div class="cause-card-top">
+          <span class="cause-emoji">👩</span>
+          <h3>Women Empowerment</h3>
+          <p>Vocational training, skill development, digital literacy and employment opportunities for women.</p>
+        </div>
+        <div class="cause-card-footer">
+          <a href="#donate" class="cause-link">Donate → </a>
+          <span style="font-size:0.75rem;color:var(--text-light)">Empowerment</span>
+        </div>
+      </div>
+      <div class="cause-card fade-in">
+        <div class="cause-color-bar" style="background:#2196f3"></div>
+        <div class="cause-card-top">
+          <span class="cause-emoji">🌊</span>
+          <h3>Emergency Relief</h3>
+          <p>Immediate relief during floods, fires, pandemics — distributing food, water, medicines, and essentials.</p>
+        </div>
+        <div class="cause-card-footer">
+          <a href="#donate" class="cause-link">Donate → </a>
+          <span style="font-size:0.75rem;color:var(--text-light)">Disaster Relief</span>
+        </div>
+      </div>
+      <div class="cause-card fade-in">
+        <div class="cause-color-bar" style="background:#ff9800"></div>
+        <div class="cause-card-top">
+          <span class="cause-emoji">👴</span>
+          <h3>Old Age Support</h3>
+          <p>Essential assistance, medical support, and care programs ensuring dignity for elderly individuals.</p>
+        </div>
+        <div class="cause-card-footer">
+          <a href="#donate" class="cause-link">Donate → </a>
+          <span style="font-size:0.75rem;color:var(--text-light)">Elder Care</span>
+        </div>
+      </div>
+      <div class="cause-card fade-in">
+        <div class="cause-color-bar" style="background:#00bcd4"></div>
+        <div class="cause-card-top">
+          <span class="cause-emoji">💧</span>
+          <h3>Clean Water & Hygiene</h3>
+          <p>Promoting clean water access, sanitation, and hygiene awareness in poor and rural communities.</p>
+        </div>
+        <div class="cause-card-footer">
+          <a href="#donate" class="cause-link">Donate → </a>
+          <span style="font-size:0.75rem;color:var(--text-light)">Health</span>
+        </div>
+      </div>
+      <div class="cause-card fade-in">
+        <div class="cause-color-bar" style="background:#795548"></div>
+        <div class="cause-card-top">
+          <span class="cause-emoji">👕</span>
+          <h3>Free Clothing</h3>
+          <p>Clothing drives providing garments, blankets, footwear, and school uniforms to those in need.</p>
+        </div>
+        <div class="cause-card-footer">
+          <a href="#donate" class="cause-link">Donate → </a>
+          <span style="font-size:0.75rem;color:var(--text-light)">Basic Needs</span>
+        </div>
+      </div>
+      <div class="cause-card fade-in">
+        <div class="cause-color-bar" style="background:#607d8b"></div>
+        <div class="cause-card-top">
+          <span class="cause-emoji">💼</span>
+          <h3>Skill Development</h3>
+          <p>Vocational training, career guidance, and employment support for youth and the unemployed.</p>
+        </div>
+        <div class="cause-card-footer">
+          <a href="#donate" class="cause-link">Donate → </a>
+          <span style="font-size:0.75rem;color:var(--text-light)">Employment</span>
+        </div>
+      </div>
+      <div class="cause-card fade-in">
+        <div class="cause-color-bar" style="background:#f44336"></div>
+        <div class="cause-card-top">
+          <span class="cause-emoji">🩸</span>
+          <h3>Blood Donation & Health Camps</h3>
+          <p>Blood donation drives, free medical checkups, eye camps and awareness programs for communities.</p>
+        </div>
+        <div class="cause-card-footer">
+          <a href="#donate" class="cause-link">Donate → </a>
+          <span style="font-size:0.75rem;color:var(--text-light)">Healthcare</span>
+        </div>
+      </div>
+      <div class="cause-card fade-in">
+        <div class="cause-color-bar" style="background:#4caf50"></div>
+        <div class="cause-card-top">
+          <span class="cause-emoji">🐾</span>
+          <h3>Animal Welfare</h3>
+          <p>Feeding drives, rescue support, medical treatment, and awareness for stray and injured animals.</p>
+        </div>
+        <div class="cause-card-footer">
+          <a href="#donate" class="cause-link">Donate → </a>
+          <span style="font-size:0.75rem;color:var(--text-light)">Animal Welfare</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="section-inner">
+    <div style="text-align:center;" class="fade-in">
+      <span class="section-tag">Simple Process</span>
+      <h2 class="section-title">How Your Donation Works</h2>
+      <p class="section-sub" style="margin:0 auto;">From your contribution to impact — see how we ensure every rupee reaches those who need it most.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card fade-in">
+        <div class="step-num">1</div>
+        <h4>Choose a Cause</h4>
+        <p>Select the program you want to support — food, education, medical aid, or any of our 12 initiatives.</p>
+      </div>
+      <div class="step-card fade-in">
+        <div class="step-num">2</div>
+        <h4>Pick an Amount</h4>
+        <p>Donate any amount — ₹100 can feed a family, ₹500 can fund a child's books for a month.</p>
+      </div>
+      <div class="step-card fade-in">
+        <div class="step-num">3</div>
+        <h4>Pay Securely</h4>
+        <p>Pay via UPI, Net Banking, or Debit/Credit Card. Receive instant confirmation and 80G receipt.</p>
+      </div>
+      <div class="step-card fade-in">
+        <div class="step-num">4</div>
+        <h4>Track Impact</h4>
+        <p>Get updates on how your donation created real impact in the lives of those you helped.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DONATE SECTION -->
+<section class="donate-section" id="donate">
+  <div class="donate-inner">
+    <span class="section-tag">Make A Difference</span>
+    <h2 class="section-title" style="color:white;margin-bottom:14px;">Donate & Change Lives</h2>
+    <p class="section-sub">Your generosity can bring hope, meals, and opportunity to someone who needs it today. Even ₹100 matters.</p>
+
+    <div class="donate-box fade-in">
+      <h3>Make a Donation</h3>
+      <p>Select amount and cause below. All donations are transparent and accounted for.</p>
+
+      <div class="amount-grid">
+        <div class="amount-btn active" onclick="selectAmount(this, '100')">
+          <strong>₹100</strong><span>Feed a person</span>
+        </div>
+        <div class="amount-btn" onclick="selectAmount(this, '500')">
+          <strong>₹500</strong><span>Books for a child</span>
+        </div>
+        <div class="amount-btn" onclick="selectAmount(this, '1000')">
+          <strong>₹1,000</strong><span>Medical kit</span>
+        </div>
+        <div class="amount-btn" onclick="selectAmount(this, '5000')">
+          <strong>₹5,000</strong><span>Transform a life</span>
+        </div>
+      </div>
+
+      <div class="custom-amount">
+        <span>₹</span>
+        <input type="number" id="customAmount" placeholder="Enter custom amount" value="100" min="1" />
+      </div>
+
+      <select class="cause-select">
+        <option value="">Select a cause (optional)</option>
+        <option>🍱 Food Support for the Hungry</option>
+        <option>🏥 Medical Assistance</option>
+        <option>📚 Education Support</option>
+        <option>🤝 Orphans & Widows</option>
+        <option>👩 Women Empowerment</option>
+        <option>🌊 Emergency Relief</option>
+        <option>👴 Old Age Support</option>
+        <option>💧 Clean Water & Hygiene</option>
+        <option>👕 Free Clothing Distribution</option>
+        <option>💼 Skill Development</option>
+        <option>🩸 Blood Donation & Health Camps</option>
+        <option>🐾 Animal Welfare</option>
+        <option>🌟 Where Most Needed</option>
+      </select>
+
+      <div class="donor-fields">
+        <input type="text" placeholder="Your Full Name" />
+        <input type="tel" placeholder="Phone Number" />
+        <input type="email" placeholder="Email Address" />
+        <input type="text" placeholder="PAN (for 80G receipt)" />
+      </div>
+
+      <p style="text-align:left;font-size:0.82rem;font-weight:600;color:var(--navy);margin-bottom:12px;">Choose Payment Method</p>
+      <div class="payment-methods">
+        <div class="pay-method active" onclick="selectPayment(this)">
+          <span class="pay-icon">📱</span>
+          <span>UPI / QR</span>
+        </div>
+        <div class="pay-method" onclick="selectPayment(this)">
+          <span class="pay-icon">🏦</span>
+          <span>Net Banking</span>
+        </div>
+        <div class="pay-method" onclick="selectPayment(this)">
+          <span class="pay-icon">💳</span>
+          <span>Card</span>
+        </div>
+      </div>
+
+      <div class="upi-section" id="upiSection">
+        <h4>📱 Pay via UPI</h4>
+        <div class="upi-id">sarvsevak@upi</div>
+        <p>Or scan QR code at our payment desk. Mention your name in the remarks.</p>
+      </div>
+
+      <button class="btn-donate-main" onclick="handleDonate()">
+        ❤ Donate Now — Make a Difference
+      </button>
+      <p class="tax-note">Secure payment · 80G tax benefits · 100% funds go to beneficiaries</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-inner">
+    <div class="testimonials-header fade-in">
+      <span class="section-tag">Stories of Impact</span>
+      <h2 class="section-title">What People Say</h2>
+      <p class="section-sub">Real stories from donors and beneficiaries who have been part of our mission.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card fade-in">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">Donating to Sarvsevak Foundation has been one of the most fulfilling decisions of my life. I know my contribution directly reaches families in need. Completely transparent.</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:var(--saffron)">R</div>
+          <div>
+            <div class="testi-name">Rahul Sharma</div>
+            <div class="testi-role">Regular Donor, Mumbai</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-in">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">Because of this foundation, my daughter could continue her studies when I lost my job. They provided books, fees, and even mentorship. God bless this team.</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:var(--green)">P</div>
+          <div>
+            <div class="testi-name">Priya Devi</div>
+            <div class="testi-role">Beneficiary, UP</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-in">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">I volunteer here every weekend. The work this foundation does for the elderly and widows in our community is truly incredible. Join them — you won't regret it.</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:var(--navy)">A</div>
+          <div>
+            <div class="testi-name">Ankit Verma</div>
+            <div class="testi-role">Volunteer, Delhi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BANK DETAILS -->
+<section class="bank-section" id="bank">
+  <div class="section-inner">
+    <div class="fade-in">
+      <span class="section-tag">Payment Details</span>
+      <h2 class="section-title">Direct Bank Transfer</h2>
+      <p style="color:rgba(255,255,255,0.55);font-size:0.95rem;margin-top:8px;">You can also transfer directly to our registered bank account. All donations are issued receipts.</p>
+    </div>
+    <div class="bank-grid">
+      <div class="bank-card fade-in">
+        <h3>🏦 Bank Account Details</h3>
+        <div class="bank-row">
+          <span class="bank-label">Account Name</span>
+          <span class="bank-value">Sarvsevak Foundation</span>
+        </div>
+        <div class="bank-row">
+          <span class="bank-label">Account Number</span>
+          <span class="bank-value">XXXXXXXXXXXXXXXX</span>
+        </div>
+        <div class="bank-row">
+          <span class="bank-label">IFSC Code</span>
+          <span class="bank-value">XXXX0XXXXXX</span>
+        </div>
+        <div class="bank-row">
+          <span class="bank-label">Bank Name</span>
+          <span class="bank-value">State Bank of India</span>
+        </div>
+        <div class="bank-row">
+          <span class="bank-label">Branch</span>
+          <span class="bank-value">India</span>
+        </div>
+      </div>
+      <div class="bank-card fade-in">
+        <h3>📱 UPI & Other Options</h3>
+        <div class="bank-row">
+          <span class="bank-label">UPI ID</span>
+          <span class="bank-value">sarvsevak@upi</span>
+        </div>
+        <div class="bank-row">
+          <span class="bank-label">Google Pay</span>
+          <span class="bank-value">sarvsevak@okaxis</span>
+        </div>
+        <div class="bank-row">
+          <span class="bank-label">PhonePe</span>
+          <span class="bank-value">sarvsevak@ybl</span>
+        </div>
+        <div class="bank-row">
+          <span class="bank-label">80G Certificate</span>
+          <span class="bank-value">Yes — issued on request</span>
+        </div>
+        <div class="bank-row">
+          <span class="bank-label">Registration</span>
+          <span class="bank-value">Registered NGO, India</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="https://cdn.shopify.com/s/files/1/0852/4565/7363/files/LOGO_SVG.svg?v=1779867011" alt="Sarvsevak Foundation" onerror="this.style.display='none'"/>
+        <p>Sarvsevak Foundation is committed to serving the underprivileged across India — providing food, healthcare, education, and dignity to those who need it most.</p>
+        <div class="social-links">
+          <a href="#" title="Facebook">📘</a>
+          <a href="#" title="Instagram">📸</a>
+          <a href="#" title="Twitter">🐦</a>
+          <a href="#" title="YouTube">▶️</a>
+          <a href="#" title="WhatsApp">💬</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Programs</h4>
+        <ul>
+          <li><a href="#causes">Food Support</a></li>
+          <li><a href="#causes">Medical Aid</a></li>
+          <li><a href="#causes">Education</a></li>
+          <li><a href="#causes">Women Empowerment</a></li>
+          <li><a href="#causes">Emergency Relief</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="#mission">Our Mission</a></li>
+          <li><a href="#how">How It Works</a></li>
+          <li><a href="#bank">Payment Details</a></li>
+          <li><a href="#">Annual Report</a></li>
+          <li><a href="#">Volunteer</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:info@sarvsevak.org">info@sarvsevak.org</a></li>
+          <li><a href="tel:+91XXXXXXXXXX">+91 XXXXX XXXXX</a></li>
+          <li><a href="#">India</a></li>
+          <li><a href="#donate">Donate Now</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Sarvsevak Foundation. All rights reserved. <span class="india-flag">Made with ❤ in 🇮🇳 India</span></p>
+      <p>Registered NGO · 80G Tax Benefits Available · 100% Transparent</p>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="thankModal">
+  <div class="modal">
+    <div style="font-size:3.5rem;margin-bottom:14px;">🙏</div>
+    <h2>Thank You!</h2>
+    <p>Your generous donation makes a real difference. We will send a receipt and keep you updated on the impact of your contribution. Jai Hind! 🇮🇳</p>
+    <button class="modal-close" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<!-- SCROLL TOP -->
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+<script>
+  // Navbar scroll
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+    document.getElementById('scrollTop').classList.toggle('visible', window.scrollY > 400);
+  });
+
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  function closeMobile() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  }
+
+  // Amount selection
+  function selectAmount(el, val) {
+    document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('customAmount').value = val;
+  }
+
+  // Payment method selection
+  function selectPayment(el) {
+    document.querySelectorAll('.pay-method').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    const upi = document.getElementById('upiSection');
+    const label = el.querySelector('span:last-child').textContent;
+    if (label.includes('UPI')) {
+      upi.style.display = 'block';
+    } else if (label.includes('Net Banking')) {
+      upi.innerHTML = `<h4>🏦 Net Banking</h4><div class="upi-id">Use IFSC: XXXX0XXXXXX</div><p>Account: Sarvsevak Foundation · Bank: SBI</p>`;
+      upi.style.display = 'block';
+    } else {
+      upi.innerHTML = `<h4>💳 Card Payment</h4><div class="upi-id">Coming Soon</div><p>Currently please use UPI or Net Banking. We're adding card payments soon.</p>`;
+      upi.style.display = 'block';
+    }
+  }
+
+  // Donate button
+  function handleDonate() {
+    const amount = document.getElementById('customAmount').value;
+    if (!amount || amount <= 0) {
+      alert('Please enter a valid donation amount.');
+      return;
+    }
+    document.getElementById('thankModal').classList.add('open');
+  }
+  function closeModal() {
+    document.getElementById('thankModal').classList.remove('open');
+  }
+
+  // Fade in on scroll
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  fadeEls.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
